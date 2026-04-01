@@ -1,0 +1,34 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --font: 'Geist', system-ui, sans-serif;
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --border: rgba(0,0,0,0.08);
+  --border-md: rgba(0,0,0,0.14);
+  --text-primary: #111;
+  --text-secondary: #555;
+  --text-tertiary: #999;
+  --blue: #185FA5;
+  --blue-light: #E6F1FB;
+  --green: #0F6E56;
+  --green-light: #EAF3DE;
+  --amber-light: #FAEEDA;
+  --amber: #854F0B;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --sidebar-w: 220px;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font-family: var(--font); cursor: pointer; border: none; background: none; }
+a { text-decoration: none; color: inherit; }
