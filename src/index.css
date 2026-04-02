@@ -15,6 +15,8 @@
   --green-light: #EAF3DE;
   --amber-light: #FAEEDA;
   --amber: #854F0B;
+  --red: #E24B4A;
+  --red-light: #FCEBEB;
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;
@@ -32,3 +34,4 @@ body {
 
 button { font-family: var(--font); cursor: pointer; border: none; background: none; }
 a { text-decoration: none; color: inherit; }
+input, select, textarea { font-family: var(--font); }
