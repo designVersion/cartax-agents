@@ -23,7 +23,6 @@ jobs:
         env:
           REACT_APP_GITHUB_OWNER: ${{ secrets.REACT_APP_GITHUB_OWNER }}
           REACT_APP_GITHUB_REPO: ${{ secrets.REACT_APP_GITHUB_REPO }}
-          REACT_APP_GITHUB_TOKEN: ${{ secrets.REACT_APP_GITHUB_TOKEN }}
           REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
           REACT_APP_FIREBASE_AUTH_DOMAIN: ${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}
           REACT_APP_FIREBASE_PROJECT_ID: ${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}
@@ -35,7 +34,6 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          personal_token: ${{ secrets.REACT_APP_GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
-          external_repository: designVersion/cartax-agents
-          publish_branch: gh-pages
+          force_orphan: true
