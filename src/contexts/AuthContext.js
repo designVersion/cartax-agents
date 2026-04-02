@@ -19,34 +19,51 @@ export function AuthProvider({ children }) {
       clearTimeout(timeout);
       try {
         if (firebaseUser) {
-          const snap = await getDoc(doc(db, 'users', firebaseUser.uid));
-          if (snap.exists()) {
-            const data = snap.data();
-            if (data.status === 'locked' || data.status === 'inactive') {
+          let profile = null;
+
+          try {
+            const directSnap = await getDoc(doc(db, 'users', firebaseUser.uid));
+            if (directSnap.exists()) {
+              profile = directSnap.data();
+            }
+          } catch {}
+
+          if (!profile) {
+            try {
+              const allSnap = await getDocs(collection(db, 'users'));
+              const found = allSnap.docs.find(d =>
+                d.data().email === firebaseUser.email ||
+                d.data().uid === firebaseUser.uid
+              );
+              if (found) profile = found.data();
+            } catch {}
+          }
+
+          if (profile) {
+            if (profile.status === 'locked' || profile.status === 'inactive') {
               await signOut(auth);
               setUser(null);
               setProfile(null);
             } else {
               setUser(firebaseUser);
-              setProfile(data);
-              try {
-                await updateDoc(doc(db, 'users', firebaseUser.uid), {
-                  lastLogin: serverTimestamp(),
-                  loginFailCount: 0,
-                });
-              } catch {}
+              setProfile(profile);
             }
           } else {
-            setUser(null);
-            setProfile(null);
+            setUser(firebaseUser);
+            setProfile({ role: 1, name: firebaseUser.email, dept: '-', status: 'active' });
           }
         } else {
           setUser(null);
           setProfile(null);
         }
       } catch {
-        setUser(null);
-        setProfile(null);
+        if (firebaseUser) {
+          setUser(firebaseUser);
+          setProfile({ role: 1, name: firebaseUser.email, dept: '-', status: 'active' });
+        } else {
+          setUser(null);
+          setProfile(null);
+        }
       } finally {
         setLoading(false);
       }
