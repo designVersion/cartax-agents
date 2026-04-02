@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/cartax-agents/static/css/main.3d3caa69.css",
+    "main.js": "/cartax-agents/static/js/main.9ea7c7c8.js",
+    "index.html": "/cartax-agents/index.html",
+    "main.3d3caa69.css.map": "/cartax-agents/static/css/main.3d3caa69.css.map",
+    "main.9ea7c7c8.js.map": "/cartax-agents/static/js/main.9ea7c7c8.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3d3caa69.css",
+    "static/js/main.9ea7c7c8.js"
+  ]
+}
