@@ -1,7 +1,9 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&display=swap');
+
 :root {
-  --font: 'Geist', system-ui, sans-serif;
+  --font: 'Noto Sans KR', 'Geist', system-ui, sans-serif;
   --bg: #f7f7f5;
   --surface: #ffffff;
   --border: rgba(0,0,0,0.08);
