@@ -35,5 +35,7 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          personal_token: ${{ secrets.REACT_APP_GITHUB_TOKEN }}
           publish_dir: ./build
+          external_repository: designVersion/cartax-agents
+          publish_branch: gh-pages
