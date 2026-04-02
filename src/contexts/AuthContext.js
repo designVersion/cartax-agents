@@ -11,35 +11,47 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+
     const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        const snap = await getDoc(doc(db, 'users', firebaseUser.uid));
-        if (snap.exists()) {
-          const data = snap.data();
-          if (data.status === 'locked') {
-            await signOut(auth);
-            setUser(null);
-            setProfile(null);
-          } else if (data.status === 'inactive') {
-            await signOut(auth);
-            setUser(null);
-            setProfile(null);
+      clearTimeout(timeout);
+      try {
+        if (firebaseUser) {
+          const snap = await getDoc(doc(db, 'users', firebaseUser.uid));
+          if (snap.exists()) {
+            const data = snap.data();
+            if (data.status === 'locked' || data.status === 'inactive') {
+              await signOut(auth);
+              setUser(null);
+              setProfile(null);
+            } else {
+              setUser(firebaseUser);
+              setProfile(data);
+              try {
+                await updateDoc(doc(db, 'users', firebaseUser.uid), {
+                  lastLogin: serverTimestamp(),
+                  loginFailCount: 0,
+                });
+              } catch {}
+            }
           } else {
-            setUser(firebaseUser);
-            setProfile(data);
-            await updateDoc(doc(db, 'users', firebaseUser.uid), {
-              lastLogin: serverTimestamp(),
-              loginFailCount: 0,
-            });
+            setUser(null);
+            setProfile(null);
           }
+        } else {
+          setUser(null);
+          setProfile(null);
         }
-      } else {
+      } catch {
         setUser(null);
         setProfile(null);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     });
-    return unsub;
+    return () => { clearTimeout(timeout); unsub(); };
   }, []);
 
   async function login(email, password) {
